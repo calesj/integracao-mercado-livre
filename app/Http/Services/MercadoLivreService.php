@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Const\MLConst;
 use App\Http\Traits\MLTrait;
 use Exception;
 use Illuminate\Foundation\Application;
@@ -55,9 +56,64 @@ class MercadoLivreService
      */
     public function getCategories()
     {
-        $url = 'https://api.mercadolibre.com/sites/MLB/categories/all';
+        $url = 'https://api.mercadolibre.com/sites/MLB/categories';
 
         // Fazer a requisição
         return $this->request($url, 'get');
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function getCategory(string $categoryId)
+    {
+        $url = 'https://api.mercadolibre.com/categories/' . $categoryId. '/attributes';
+        // Fazer a requisição
+        return $this->request($url, 'get');
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function suggestCategory(string $q)
+    {
+        $url = "https://api.mercadolibre.com/sites/MLB/domain_discovery/search?";
+        return $this->request($url, 'get', ['q' => $q, 'limit' => 1]);
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function getListingTypes()
+    {
+        $url = MLConst::LIST_TYPES;
+        return $this->request($url, 'get');
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function publishProduct(array $params, $category)
+    {
+        /** Dados do produto **/
+        $productData = [
+            'title' => $params['title'],
+            'category_id' => $category['category_id'],
+            'price' => $params['price'],
+            'currency_id' => 'BRL',
+            'available_quantity' => $params['available_quantity'],
+            'buying_mode' => 'buy_it_now', // pode ser alterado conforme necessário
+            'condition' => 'new', // pode ser 'new', 'used', etc.
+            'listing_type_id' => $params['listing_type_id'],
+            'description' => [
+                'plain_text' => $params['description'],
+            ],
+            'attributes' => $category['attributes'],
+            'pictures' => array_map(function ($url) {
+                return ['source' => $url];
+            }, $params['pictures']),
+        ];
+
+        return $this->request(MLConst::PUBLISH_ITEM, 'post', $productData, ['Authorization' => 'Bearer ' . auth()->user()->ml_access_token]);
     }
 }

@@ -9,8 +9,12 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end"> <!--begin::User Image-->
                     <li class="user-footer">
-                        <a href="{{ route('dashboard.index') }}" class="btn btn-default btn-flat">Dashboard</a>
-                        <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-end">Sair</a>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-default btn-flat float-end">
+                                <p>Sair</p>
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </li>

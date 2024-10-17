@@ -1,10 +1,16 @@
-@extends('pages.login.layout.master')
+@extends('pages.auth.layout.master')
 
 @section('content')
 <div class="login-box">
+    @if($errors->count() > 0)
+        <div class="alert alert-danger" role="alert">
+            {{ $errors->first() }}
+        </div>
+    @endif
+
     <div class="card card-outline card-primary">
         <div class="card-header"> <a href="../index2.html" class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover">
-                <h1 class="mb-0"> <b>Destak</b> Ferramentas
+                <h1 class="mb-0"> <b>Mercado Livre</b> Integração
                 </h1>
             </a> </div>
         <div class="card-body login-card-body">
@@ -41,8 +47,8 @@
                     </div>
                 </div>
             </form>
-            <p class="mb-1"> <a href="forgot-password.html">I forgot my password</a> </p>
-            <p class="mb-0"> <a href="register.html" class="text-center">Register a new membership</a>
+            <br>
+            <p class="mb-0"> <a href="{{ route('register') }}" class="text-center">Criar conta</a>
             </p>
         </div>
     </div>

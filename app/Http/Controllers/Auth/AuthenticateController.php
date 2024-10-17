@@ -20,8 +20,7 @@ class AuthenticateController extends Controller
      */
     public function create()
     {
-        return view('pages.login.index');
-        //return $this->mercadoLivreService->oauth();
+        return view('pages.auth.login.index');
     }
 
     /**

@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('app.auth.register');
+        return view('pages.auth.register.index');
     }
 
     /**
@@ -39,6 +39,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('home', absolute: false));
+        return redirect(route('dashboard.index', absolute: false));
     }
 }

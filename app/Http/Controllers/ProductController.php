@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Services\MercadoLivreService;
 use App\Models\Product;
-use App\Models\User;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function __construct(
-        private readonly Request $request
+        private readonly Request $request,
+        private readonly MercadoLivreService $mercadoLivreService
     )
     {}
     /**
@@ -19,27 +21,40 @@ class ProductController extends Controller
     public function index()
     {
         $user = $this->request->user();
-        $products = Product::all();
 
-        return view('pages.products.index', compact('products', 'user'));
+
+        return view('pages.products.index', compact( 'user'));
     }
 
     /**
      * Show the form for creating a new resource.
+     * @throws ConnectionException
      */
     public function create()
     {
         $user = $this->request->user();
-        $categories = Category::all();
-        return view('pages.products.create', compact('user', 'categories'));
+        $listingTypes = $this->mercadoLivreService->getListingTypes();
+        return view('pages.products.create', compact('user', 'listingTypes'));
     }
 
     /**
      * Store a newly created resource in storage.
+     * @throws ConnectionException
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        //
+        /** Categoria sugestiva para o produto */
+        $category = $this->mercadoLivreService->suggestCategory($request->title)[0];
+
+        /** Dados do produto **/
+        $response = $this->mercadoLivreService->publishProduct($request->validated(), $category);
+
+        /** Lidar com a resposta */
+        if (!empty($response['cause'][0])) {
+            return redirect()->back()->with(['error' => $response['cause'][0]['message']]);
+        }
+
+        return redirect()->back()->with('success', 'Publicado com sucesso!');
     }
 
     /**

@@ -21,15 +21,17 @@ class CheckAndRefreshMLToken
         $user = $request->user();
 
         /** Verifica se o usuário está autenticado e tem o token do Mercado Livre */
-        if ($user && $user->ml_access_token && $user->ml_token_expires_at) {
+        if ($user->ml_access_token && $user->ml_token_expires_at) {
             /** Verifica se o token expirou */
-            if (now()->greaterThan($user->ml_token_expires_at)) {
+            if ((now()->addHours(2))->greaterThan($user->ml_token_expires_at)) {
                 /** Lógica para renovar o token */
-                $newTokens = $this->refreshAccessToken($user->refresh_token);
+                $newTokens = $this->refreshAccessToken($user->ml_refresh_token);
 
                 /** Atualiza o access_token e a data de expiração */
                 $user->ml_access_token = $newTokens['access_token'];
-                $user->ml_token_expires_at = now()->addSeconds($newTokens['expires_in']);
+                $expiresAt = now()->addSeconds($newTokens['expires_in'])->format('Y-m-d H:i:s');
+                $user->ml_token_expires_at = $expiresAt;
+                $user->ml_token_expires_at = now()->addSeconds();
                 $user->save();
             }
         }
@@ -57,10 +59,7 @@ class CheckAndRefreshMLToken
 
         $response = Http::post($url, $data);
 
-        if ($response->successful()) {
             return $response->json();
-        }
 
-        throw new Exception('Error refreshing Mercado Livre access token.');
     }
 }
