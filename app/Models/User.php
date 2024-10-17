@@ -20,6 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'ml_user_id',
+        'ml_refresh_token',
+        'ml_access_token',
+        'ml_token_expires_at',
         'password',
     ];
 
