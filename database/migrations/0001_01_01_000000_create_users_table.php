@@ -16,6 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->bigInteger('ml_user_id')->unsigned()->nullable();
+            $table->string('ml_refresh_token')->nullable();
+            $table->string('ml_access_token')->nullable();
+            $table->timestamp('ml_token_expires_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
