@@ -2,6 +2,8 @@
 
 namespace App\Http\Services;
 
+use App\Http\Traits\MLTrait;
+use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
@@ -10,10 +12,11 @@ use Illuminate\Support\Facades\Http;
 
 class MercadoLivreService
 {
+    use MLTrait;
     public function oauth(): Application|Redirector|RedirectResponse
     {
         $appId = config('mercadolivre.client_id');
-        $redirectUri = 'https://www.google.com.br';
+        $redirectUri = config('mercadolivre.redirect_uri');
 
         $url = "https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=$appId&redirect_uri=$redirectUri";
 
@@ -26,7 +29,7 @@ class MercadoLivreService
     public function accessToken(string $code): array
     {
         $appId = config('mercadolivre.client_id');
-        $redirectUri = 'https://www.google.com.br';
+        $redirectUri = config('mercadolivre.redirect_uri');
 
         $url = "https://api.mercadolibre.com/oauth/token";
 
@@ -44,5 +47,17 @@ class MercadoLivreService
         ];
 
         return Http::withHeaders($headers)->post($url, $data)->json();
+    }
+
+    /**
+     * @throws ConnectionException
+     * @throws Exception
+     */
+    public function getCategories()
+    {
+        $url = 'https://api.mercadolibre.com/sites/MLB/categories/all';
+
+        // Fazer a requisição
+        return $this->request($url, 'get');
     }
 }

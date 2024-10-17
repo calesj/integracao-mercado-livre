@@ -12,6 +12,9 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        if (!$user->ml_user_id) {
+            return view('pages.ml.oauth');
+        }
         return view('pages.dashboard.index', compact('user'));
     }
 

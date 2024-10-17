@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckAndRefreshMLToken;
+use App\Http\Middleware\CheckMLAuth;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,7 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'ml.checkToken' => CheckAndRefreshMLToken::class
+            'ml.checkToken' => CheckAndRefreshMLToken::class, // Atualiza o token automaticamente
+            'ml.auth' => CheckMLAuth::class // Verifica se o usuario já fez autenticação oauth no mercado livre
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

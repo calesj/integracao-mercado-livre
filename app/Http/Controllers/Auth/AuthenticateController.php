@@ -29,6 +29,7 @@ class AuthenticateController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $request->remember = $request->remember == 'on';
         $request->authenticate();
 
         $request->session()->regenerate();
@@ -52,6 +53,6 @@ class AuthenticateController extends Controller
 
     public function accessToken()
     {
-        dd($this->mercadoLivreService->accessToken(config('mercadolivre.user_code')));
+        dd($this->mercadoLivreService->accessToken(config()));
     }
 }

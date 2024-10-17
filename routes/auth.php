@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticateController;
-use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('login', [AuthenticateController::class, 'create'])->name('login');
@@ -11,6 +11,6 @@ Route::get('register', [RegisteredUserController::class, 'create']);
 Route::get('register', [RegisteredUserController::class, 'store']);
 
 Route::group(['middleware' => ['web', 'auth']], function () {
-   Route::post('logout', [AuthenticateController::class, 'destroy'])->name('logout');
+   Route::get('logout', [AuthenticateController::class, 'destroy'])->name('logout');
 });
 
