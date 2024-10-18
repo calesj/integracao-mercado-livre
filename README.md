@@ -119,12 +119,12 @@ Após autorizar, você será redirecionado para o Google com um **código** na U
 
 Agora, acesse a seguinte rota para trocar o código pelo **Access Token**:  
 ```http
-http://destak-ferramentas.test/ml/access-token/{COLOQUE_O_CODIGO_AQUI}
+http://localhost:8081/ml/access-token/{COLOQUE_O_CODIGO_AQUI}
 ```
 
 Exemplo:  
 ```http
-http://destak-ferramentas.test/ml/access-token/TG-67119f3b298fae0001f70a17-169590539
+http://localhost:8081/ml/access-token/TG-67119f3b298fae0001f70a17-169590539
 ```
 
 **Observação:** Caso demore muito, o código pode expirar, e você verá um erro. Nesse caso, será necessário repetir o processo de autenticação.
