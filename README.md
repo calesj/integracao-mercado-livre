@@ -19,7 +19,7 @@ git clone https://github.com/calesj/destak-ferramentas-teste.git
 
 Após clonar o repositório, acesse o diretório do projeto:  
 ```bash
-cd destak-ferramentas-teste
+cd destak-ferramentas
 ```
 
 ### 3. Instalar as dependências
