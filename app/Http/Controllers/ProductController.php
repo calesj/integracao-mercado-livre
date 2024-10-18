@@ -58,8 +58,8 @@ class ProductController extends Controller
         $response = $this->mercadoLivreService->publishProduct($request->validated(), $category);
 
         /** Lidar com a resposta */
-        if (!empty($response['cause'][0])) {
-            return redirect()->back()->with(['error' => $response['cause'][0]['message']]);
+        if (!empty($response['error'])) {
+            return redirect()->back()->with(['error' => $response['error']]);
         }
 
         return redirect()->back()->with('success', 'Publicado com sucesso!');

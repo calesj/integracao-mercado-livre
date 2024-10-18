@@ -12,6 +12,12 @@ services:
             - .:/var/www
         depends_on:
             - mysql
+        command: >
+            bash -c "
+            composer install &&
+            php artisan key:generate &&
+            php artisan migrate &&
+            php-fpm"
         networks:
             - laravel_app
     nginx:
@@ -37,7 +43,6 @@ services:
             - "3306:3306"
         networks:
             - laravel_app
-
 networks:
     laravel_app:
         driver: bridge
