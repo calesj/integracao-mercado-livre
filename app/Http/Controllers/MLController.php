@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MLCodeRequest;
 use App\Http\Services\MercadoLivreService;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
+
 class MLController extends Controller
 {
     public function __construct(
@@ -12,7 +14,7 @@ class MLController extends Controller
     )
     {}
 
-    public function oauth()
+    public function oauth(): RedirectResponse
     {
         return $this->mercadoLivreService->oauth();
     }
@@ -20,7 +22,7 @@ class MLController extends Controller
     /**
      * @throws ConnectionException
      */
-    public function accessToken(MLCodeRequest $request, string $code)
+    public function accessToken(MLCodeRequest $request, string $code): RedirectResponse
     {
         $user = $request->user();
 

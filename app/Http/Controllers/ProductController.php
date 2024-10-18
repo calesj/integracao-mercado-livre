@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Services\MercadoLivreService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ProductController extends Controller
      * Display a listing of the resource.
      * @throws ConnectionException
      */
-    public function index()
+    public function index(): View
     {
         $user = $this->request->user();
         $items = $this->mercadoLivreService->getPublisheds($user->ml_user_id)['results'];
@@ -39,7 +40,7 @@ class ProductController extends Controller
      * Show the form for creating a new resource.
      * @throws ConnectionException
      */
-    public function create()
+    public function create(): View
     {
         $user = $this->request->user();
         $listingTypes = $this->mercadoLivreService->getListingTypes();
