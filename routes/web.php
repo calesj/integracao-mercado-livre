@@ -8,8 +8,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::group(['middleware' => ['ml.auth', 'ml.checkToken']], function () {
         Route::get('/', [ProductController::class, 'index'])->name('dashboard.index');
-        Route::get('products/create', [ProductController::class, 'index'])->name('products.create');
-        Route::post('products/store', [ProductController::class, 'index'])->name('products.store');
+        Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+        Route::post('products/store', [ProductController::class, 'store'])->name('products.store');
     });
 });
 
