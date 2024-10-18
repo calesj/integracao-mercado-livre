@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthenticateController extends Controller
 {
     public function __construct(
-        private MercadoLivreService $mercadoLivreService
+        private readonly MercadoLivreService $mercadoLivreService
     )
     {}
 

@@ -4,7 +4,6 @@ namespace App\Http\Services;
 
 use App\Http\Const\MLConst;
 use App\Http\Traits\MLTrait;
-use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
@@ -105,6 +104,9 @@ class MercadoLivreService
         return $this->request($url, 'get', [], ['Authorization' => 'Bearer ' . auth()->user()->ml_access_token]);
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function getPublish(string $id)
     {
         $url = "https://api.mercadolibre.com/items/$id";
