@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Services\MercadoLivreService;
-use App\Models\Product;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 
@@ -15,15 +14,24 @@ class ProductController extends Controller
         private readonly MercadoLivreService $mercadoLivreService
     )
     {}
+
     /**
      * Display a listing of the resource.
+     * @throws ConnectionException
      */
     public function index()
     {
         $user = $this->request->user();
+        $items = $this->mercadoLivreService->getPublisheds($user->ml_user_id)['results'];
 
+        $publisheds = [];
+        if (!empty($items)) {
+            foreach ($items as $product) {
+                $publisheds[] = $this->mercadoLivreService->getPublish($product);
+            }
+        }
 
-        return view('pages.products.index', compact( 'user'));
+        return view('pages.products.index', compact( 'user', 'publisheds'));
     }
 
     /**
@@ -55,37 +63,5 @@ class ProductController extends Controller
         }
 
         return redirect()->back()->with('success', 'Publicado com sucesso!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product)
-    {
-        //
     }
 }

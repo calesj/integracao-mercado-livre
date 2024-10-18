@@ -1,16 +1,16 @@
 <?php
 
 
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web', 'auth']], function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+
 
     Route::group(['middleware' => ['ml.auth', 'ml.checkToken']], function () {
-        /** Produtos */
-        Route::resource('products', ProductController::class);
+        Route::get('/', [ProductController::class, 'index'])->name('dashboard.index');
+        Route::get('products/create', [ProductController::class, 'index'])->name('products.create');
+        Route::post('products/store', [ProductController::class, 'index'])->name('products.store');
     });
 });
 

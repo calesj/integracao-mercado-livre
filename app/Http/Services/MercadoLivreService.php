@@ -52,28 +52,6 @@ class MercadoLivreService
 
     /**
      * @throws ConnectionException
-     * @throws Exception
-     */
-    public function getCategories()
-    {
-        $url = 'https://api.mercadolibre.com/sites/MLB/categories';
-
-        // Fazer a requisição
-        return $this->request($url, 'get');
-    }
-
-    /**
-     * @throws ConnectionException
-     */
-    public function getCategory(string $categoryId)
-    {
-        $url = 'https://api.mercadolibre.com/categories/' . $categoryId. '/attributes';
-        // Fazer a requisição
-        return $this->request($url, 'get');
-    }
-
-    /**
-     * @throws ConnectionException
      */
     public function suggestCategory(string $q)
     {
@@ -115,5 +93,22 @@ class MercadoLivreService
         ];
 
         return $this->request(MLConst::PUBLISH_ITEM, 'post', $productData, ['Authorization' => 'Bearer ' . auth()->user()->ml_access_token]);
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function getPublisheds(string $id)
+    {
+        $url = "https://api.mercadolibre.com/users/$id/items/search";
+
+        return $this->request($url, 'get', [], ['Authorization' => 'Bearer ' . auth()->user()->ml_access_token]);
+    }
+
+    public function getPublish(string $id)
+    {
+        $url = "https://api.mercadolibre.com/items/$id";
+
+        return $this->request($url, 'get', [], ['Authorization' => 'Bearer ' . auth()->user()->ml_access_token]);
     }
 }
