@@ -139,3 +139,11 @@ Se tudo ocorrer bem, você será redirecionado para o **Dashboard**. Clique em:
 **Observação:** Preconfigurei um produto que certamente será publicado com sucesso. Caso altere algum campo, pode haver erros. Coloquei validações para exibir esses erros, mas vale lembrar que cada categoria pode exigir campos adicionais, dependendo do título que você escolher. A API do Mercado Livre utiliza o título como parâmetro e sugere uma categoria adequada automaticamente.
 
 **Bonus:** Incluí a listagem de anúncios como um recurso adicional para o teste.
+
+## Referências:
+Utilizei esses dois artigos como base para criar imagem docker do PHP, nginx, e MYSQL:
+
+<a href="https://dev.to/jmarcos16/como-configurar-imagem-dockerphp-e-nginx-para-projetos-laravel-com-php-83-23jn">https://dev.to/jmarcos16/como-configurar-imagem-dockerphp-e-nginx-para-projetos-laravel-com-php-83-23jn</a>
+
+
+<a href="https://dev.to/kamruzzaman/dockerizing-a-laravel-app-nginx-mysql-phpmyadmin-and-php-82-43ne">https://dev.to/kamruzzaman/dockerizing-a-laravel-app-nginx-mysql-phpmyadmin-and-php-82-43ne</a>
