@@ -6,6 +6,9 @@ Este repositório contém um teste técnico com os seguintes objetivos:
 - Cadastro de Produtos via API do Mercado Livre
 - Integração com API do Mercado Livre
 
+## Requerimentos
+- Docker
+  
 ## Passos
 
 ### 1. Clonar o repositório
@@ -22,41 +25,29 @@ Após clonar o repositório, acesse o diretório do projeto:
 cd destak-ferramentas
 ```
 
-### 3. Instalar as dependências
-
-Execute o seguinte comando para instalar as dependências do projeto via Composer:  
-```bash
-composer install
-```
-
-### 4. Criar o arquivo `.env`
+### 3. Criar o arquivo `.env`
 
 Copie o arquivo de configuração de exemplo `.env.example` e renomeie-o para `.env`:  
 ```bash
 cp .env.example .env
 ```
 
-### 5. Gerar a chave da aplicação
-
-Execute o comando abaixo para gerar a chave da aplicação:  
-```bash
-php artisan key:generate
+### 4. Configurar o banco de dados e porta local que será utilizada para rodar o projeto:
+```env (Coloque uma porta que não esteja sendo utilizada) caso contrário dará erro
+APP_PORT=8080
 ```
-
-### 6. Configurar o banco de dados
-
-Edite o arquivo `.env` e configure as informações de conexão com o banco de dados:
+No `.env` setei essas parâmetrizações, para o docker automaticamente lidar com o banco de dados:
 
 ```env
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=destak_ferramentas
-DB_USERNAME=root
-DB_PASSWORD=
+DB_DATABASE=laravel_db
+DB_USERNAME=user
+DB_PASSWORD=password
 ```
 
-### 7. Integração com o Mercado Livre
+### 5. Integração com o Mercado Livre
 
 #### Preencher as informações da aplicação
 
@@ -72,29 +63,45 @@ ML_REDIRECT_URI=https://www.google.com.br
 
 **Observação:** Optei por utilizar a URL do Google como redirect URI, já que o Mercado Livre não aceita `localhost` como parâmetro na criação da aplicação.
 
-### 8. Rodar as migrações do banco de dados
+### 6. Buildar imagem docker
+
+Execute o seguinte comando para buildar imagem docker:  
+```bash
+docker compose up -d --build
+```
+
+### 7. Instalar as dependências
+
+Execute o seguinte comando para instalar as dependências do projeto via Composer:  
+```bash
+docker compose exec application composer install
+```
+
+### 8. Gerar a chave da aplicação
+
+Execute o comando abaixo para gerar a chave da aplicação:  
+```bash
+docker compose exec application php artisan key:generate
+```
+
+### 9. Rodar as migrações do banco de dados
 
 Execute o seguinte comando para rodar as migrações e criar as tabelas no banco de dados:  
 ```bash
-php artisan migrate
+docker compose exec application php artisan migrate
 ```
 
-### 9. Executar o servidor de desenvolvimento
+### 10. Acessar o projeto
 
-Após configurar tudo, inicie o servidor local do Laravel com o comando:  
-```bash
-php artisan serve
-```
+Após configurar tudo, basta acessar o projeto no navegador em [http://localhost:8000](http://127.0.0.1:8000/). ou na porta que você estiver utilizando.
 
-Agora você pode acessar o projeto no navegador em [http://localhost:8000](http://127.0.0.1:8000/).
-
-### 10. Login ou Cadastro
+### 11. Login ou Cadastro
 
 Faça login ou cadastre seu usuário. Para agilizar o processo, já configurei um usuário padrão criado nas migrations. Basta clicar em **Login**.
 
 ![Login](https://github.com/user-attachments/assets/b15eee4d-920e-4126-8500-8a6585bebc30)
 
-### 11. Autenticação OAuth
+### 12. Autenticação OAuth
 
 Ao entrar, a primeira tela solicitará a autenticação via OAuth no Mercado Livre.
 
@@ -102,13 +109,13 @@ Ao entrar, a primeira tela solicitará a autenticação via OAuth no Mercado Liv
 
 Clique no botão para acessar sua conta no Mercado Livre (caso não esteja logado) e autorizar a aplicação a ter acesso à sua conta.
 
-### 12. Obter o código de autenticação
+### 13. Obter o código de autenticação
 
 Após autorizar, você será redirecionado para o Google com um **código** na URL. Esse código é necessário para concluir a autenticação na aplicação. Copie o código conforme mostrado abaixo:
 
 ![Código de Autenticação](https://github.com/user-attachments/assets/7e70bd34-515a-4c99-abc2-0ffbda6b3e6a)
 
-### 13. Trocar o código pelo Access Token
+### 14. Trocar o código pelo Access Token
 
 Agora, acesse a seguinte rota para trocar o código pelo **Access Token**:  
 ```http
@@ -122,7 +129,7 @@ http://destak-ferramentas.test/ml/access-token/TG-67119f3b298fae0001f70a17-16959
 
 **Observação:** Caso demore muito, o código pode expirar, e você verá um erro. Nesse caso, será necessário repetir o processo de autenticação.
 
-### 14. Publicar um produto
+### 15. Publicar um produto
 
 Se tudo ocorrer bem, você será redirecionado para o **Dashboard**. Clique em:  
 **Produtos > Publicar Produto**
