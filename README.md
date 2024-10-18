@@ -130,3 +130,5 @@ Se tudo ocorrer bem, você será redirecionado para o **Dashboard**. Clique em:
 ![Publicar Produto](https://github.com/user-attachments/assets/a71383bf-7e0f-4ed0-9d8c-fbdcd44a4265)
 
 **Observação:** Preconfigurei um produto que certamente será publicado com sucesso. Caso altere algum campo, pode haver erros. Coloquei validações para exibir esses erros, mas vale lembrar que cada categoria pode exigir campos adicionais, dependendo do título que você escolher. A API do Mercado Livre utiliza o título como parâmetro e sugere uma categoria adequada automaticamente.
+
+**Bonus:** Incluí a listagem de anúncios como um recurso adicional para o teste.
