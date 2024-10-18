@@ -6,7 +6,7 @@ Este repositório contém um teste técnico com os seguintes objetivos:
 - Cadastro de Produtos via API do Mercado Livre
 - Integração com API do Mercado Livre
 
-## Requerimentos
+## Requisitos
 - Docker
   
 ## Passos
