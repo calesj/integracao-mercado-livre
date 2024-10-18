@@ -69,18 +69,22 @@ Execute o seguinte comando para buildar imagem docker:
 ```bash
 docker compose up -d --build
 ```
+***Observação:*** Pode ser que o servidor demore alguns segundos para subir, fique de olho até as migrations serem rodadas no container ```application```:
 
-### 8. Acessar o projeto
+![image](https://github.com/user-attachments/assets/f215a42f-8df1-4743-8b3c-99651e3b98f5)
+
+
+### 7. Acessar o projeto
 
 Após configurar tudo, basta acessar o projeto no navegador em [http://localhost:8000](http://127.0.0.1:8000/). ou na porta que você estiver utilizando.
 
-### 9. Login ou Cadastro
+### 8. Login ou Cadastro
 
 Faça login ou cadastre seu usuário. Para agilizar o processo, já configurei um usuário padrão criado nas migrations. Basta clicar em **Login**.
 
 ![Login](https://github.com/user-attachments/assets/b15eee4d-920e-4126-8500-8a6585bebc30)
 
-### 10. Autenticação OAuth
+### 9. Autenticação OAuth
 
 Ao entrar, a primeira tela solicitará a autenticação via OAuth no Mercado Livre.
 
@@ -88,13 +92,13 @@ Ao entrar, a primeira tela solicitará a autenticação via OAuth no Mercado Liv
 
 Clique no botão para acessar sua conta no Mercado Livre (caso não esteja logado) e autorizar a aplicação a ter acesso à sua conta.
 
-### 11. Obter o código de autenticação
+### 10. Obter o código de autenticação
 
 Após autorizar, você será redirecionado para o Google com um **código** na URL. Esse código é necessário para concluir a autenticação na aplicação. Copie o código conforme mostrado abaixo:
 
 ![Código de Autenticação](https://github.com/user-attachments/assets/7e70bd34-515a-4c99-abc2-0ffbda6b3e6a)
 
-### 12. Trocar o código pelo Access Token
+### 11. Trocar o código pelo Access Token
 
 Agora, acesse a seguinte rota para trocar o código pelo **Access Token**:  
 ```http
@@ -108,12 +112,11 @@ http://localhost:8080/ml/access-token/TG-67119f3b298fae0001f70a17-169590539
 
 **Observação:** Caso demore muito, o código pode expirar, e você verá um erro. Nesse caso, será necessário repetir o processo de autenticação.
 
-### 13. Publicar um produto
+### 12. Publicar um produto
 
 Se tudo ocorrer bem, você será redirecionado para o **Dashboard**. Clique em:  
 **Produtos > Publicar Produto**
-
-![Publicar Produto](https://github.com/user-attachments/assets/a71383bf-7e0f-4ed0-9d8c-fbdcd44a4265)
+![sdsd](https://github.com/user-attachments/assets/72d0ee97-57be-4601-81ba-ef4ed1656fdc)
 
 **Observação:** Preconfigurei um produto que certamente será publicado com sucesso. Caso altere algum campo, pode haver erros. Coloquei validações para exibir esses erros, mas vale lembrar que cada categoria pode exigir campos adicionais, dependendo do título que você escolher. A API do Mercado Livre utiliza o título como parâmetro e sugere uma categoria adequada automaticamente.
 
