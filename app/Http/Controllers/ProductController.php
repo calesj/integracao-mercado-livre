@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Services\MercadoLivreService;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -31,7 +32,7 @@ class ProductController extends Controller
             }
         }
 
-        return view('pages.products.index', compact( 'user', 'publisheds'));
+        return view('pages.products.index', compact('user', 'publisheds'));
     }
 
     /**
@@ -47,21 +48,24 @@ class ProductController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @throws ConnectionException
      */
-    public function store(ProductStoreRequest $request)
+    public function store(ProductStoreRequest $request): RedirectResponse
     {
-        /** Categoria sugestiva para o produto */
-        $category = $this->mercadoLivreService->suggestCategory($request->title)[0];
+        try {
+            /** Categoria sugestiva para o produto */
+            $category = $this->mercadoLivreService->suggestCategory($request->title)[0];
 
-        /** Dados do produto **/
-        $response = $this->mercadoLivreService->publishProduct($request->validated(), $category);
+            /** Dados do produto **/
+            $response = $this->mercadoLivreService->publishProduct($request->validated(), $category);
 
-        /** Lidar com a resposta */
-        if (!empty($response['error'])) {
-            return redirect()->back()->with(['error' => $response['error']]);
+            /** Lidar com a resposta */
+            if (!empty($response['error'])) {
+                return redirect()->back()->with(['error' => $response['error']]);
+            }
+
+            return redirect()->back()->with('success', 'Publicado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => "Erro desconhecido aconteceu!"]);
         }
-
-        return redirect()->back()->with('success', 'Publicado com sucesso!');
     }
 }
