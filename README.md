@@ -15,14 +15,15 @@ Este repositório contém um teste técnico com os seguintes objetivos:
 
 Abra o terminal e execute o comando abaixo para clonar o repositório do GitHub:  
 ```bash
-git clone https://github.com/calesj/destak-ferramentas-teste.git
+git clone https://github.com/calesj/integracao-mercado-livre.git
+
 ```
 
 ### 2. Acessar o diretório do projeto
 
 Após clonar o repositório, acesse o diretório do projeto:  
 ```bash
-cd destak-ferramentas
+cd integracao-mercado-livre
 ```
 
 ### 3. Criar o arquivo `.env`
